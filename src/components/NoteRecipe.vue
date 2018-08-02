@@ -27,23 +27,23 @@
 export default {
   name: 'NoteRecipe',
   data () {
-    return {
-      recipe: '6.5L.75 -> 4.0L0.9 -> 1.0M1\n85g -> 75g\ncrack @ 0.8'
-    }
+    return {}
   },
+  props: ['content'],
   computed: {
-    recipeLines () {
-      return this.recipe.split('\n')
+    contentLines () {
+      console.log('>>', this.content)
+      return this.content.split('\n')
     },
     recipeSteps () {
-      return this.recipeLines[0].split(/\s*->\s*/)
+      return this.contentLines[0].split(/\s*->\s*/)
     },
     recipeWeight () {
-      let [before, after] = this.recipeLines[1].replace(/g/g, '').split(/->/)
+      let [before, after] = this.contentLines[1].replace(/g/g, '').split(/->/)
       return {before, after}
     },
     recipeCrackTime () {
-      return this.recipeLines[2].split(/@\s*/)[1]
+      return this.contentLines[2].split(/@\s*/)[1]
     }
   }
 }

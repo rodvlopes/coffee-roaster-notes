@@ -13,7 +13,7 @@
       <q-card-main>
         <div class="row">
           <div class="col-7">
-            <note-recipe />
+            <note-recipe :content="recipe" />
           </div>
           <div class="col-5">
             <q-carousel arrows quick-nav height="120px">
@@ -23,7 +23,7 @@
             </q-carousel>
           </div>
         </div>
-      </q-card-main> <!-- play_arrow -->
+      </q-card-main>
       <q-card-separator />
       <q-card-actions align="end">
         <q-icon name="date_range" class="q-mr-sm" /> {{ dateStr }}
@@ -43,7 +43,7 @@ export default {
       title: 'Grão Etiópia',
       type: 'Torra Média',
       date: new Date(),
-      recipe: '6.5L.75 -> 4.0L0.9 -> 1.0M1'
+      recipe: '6.5L.75 -> 4.0L0.9 -> 1.0M1\n85g -> 75g\ncrack @ 0.8'
     }
   },
   computed: {
