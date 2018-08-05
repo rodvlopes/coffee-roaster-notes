@@ -1,21 +1,35 @@
 {
-  "name": "c",
+  "name": "coffee-roaster-notes",
   "version": "0.1.0",
+  "productName": "Coffee Roaster Notes",
+  "description": "A coffee roaster app to take notes from roast to roast.",
+  "author": "Rodrigo Lopes <rodvlopes@gmail.com>",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "quasar-extras": "^2.0.4",
     "quasar-framework": "^0.17.0",
-    "vue": "^2.5.16"
+    "vue": "^2.5.16",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-rc.10",
     "@vue/cli-plugin-eslint": "^3.0.0-rc.10",
+    "@vue/cli-plugin-unit-mocha": "^3.0.0-rc.10",
     "@vue/cli-service": "^3.0.0-rc.10",
+    "@vue/eslint-config-airbnb": "^3.0.0-rc.10",
+    "@vue/test-utils": "^1.0.0-beta.20",
+    "chai": "^4.1.2",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "vue-cli-plugin-quasar": "^0.2.1",
@@ -28,21 +42,14 @@
     },
     "extends": [
       "plugin:vue/essential",
-      "eslint:recommended"
+      "eslint:recommended",
+      "standard"
     ],
-    "rules": {},
     "parserOptions": {
       "parser": "babel-eslint"
+    },
+    "rules": {
+        "no-console": "off"
     }
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 10"
-  ]
+  }
 }
