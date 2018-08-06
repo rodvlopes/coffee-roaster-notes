@@ -1,17 +1,17 @@
 <template>
   <span class="note-recipe">
-    <div class="row step">
+    <div v-if="recipeSteps" class="row step">
       <span v-for="(step, index) in recipeSteps" :key="index">
         {{ step }}
         <q-icon name="keyboard_arrow_right" v-if="recipeSteps.length-1 != index" size="2em" />
       </span>
     </div>
-    <div class="row q-mb-sm">
+    <div v-if="recipeCrackTime" class="row q-mb-sm">
       <q-chip icon="flash_on" icon-right="alarm" small color="primary">
         @ {{ recipeCrackTime }}
       </q-chip>
     </div>
-    <div class="row">
+    <div v-if="recipeWeight" class="row">
       <q-chip icon="shopping_basket" small  color="primary" class="weight">
         {{ recipeWeight.before }}
       </q-chip>
@@ -27,23 +27,34 @@
 export default {
   name: 'NoteRecipe',
   data () {
-    return {
-      recipe: '6.5L.75 -> 4.0L0.9 -> 1.0M1\n85g -> 75g\ncrack @ 0.8'
-    }
+    return {}
   },
+  props: [
+    'recipe'
+  ],
   computed: {
     recipeLines () {
-      return this.recipe.split('\n')
+      let [steps, weight, crack] = [null, null, null]
+      if (this.recipe) {
+        [steps, weight, crack] = this.recipe.split('\n')
+      }
+      return {steps, weight, crack}
     },
     recipeSteps () {
-      return this.recipeLines[0].split(/\s*->\s*/)
+      if (this.recipeLines.steps) {
+        return this.recipeLines.steps.split(/\s*->\s*/)
+      } else return null
     },
     recipeWeight () {
-      const [before, after] = this.recipeLines[1].replace(/g/g, '').split(/->/)
-      return { before, after }
+      if (this.recipeLines.weight) {
+        const [before, after] = this.recipeLines.weight.replace(/[g\s]+/g, '').split(/->/)
+        return { before, after }
+      } else return null
     },
     recipeCrackTime () {
-      return this.recipeLines[2].split(/@\s*/)[1]
+      if (this.recipeLines.crack) {
+        return this.recipeLines.crack.split(/@\s*/)[1]
+      } else return null
     }
   }
 }
