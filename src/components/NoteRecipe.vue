@@ -42,12 +42,12 @@ export default {
     },
     recipeSteps () {
       if (this.recipeLines.steps) {
-        return this.recipeLines.steps.split(/\s*->\s*/)
+        return this.recipeLines.steps.split(/\s*>\s*/)
       } else return null
     },
     recipeWeight () {
       if (this.recipeLines.weight) {
-        const [before, after] = this.recipeLines.weight.replace(/[g\s]+/g, '').split(/->/)
+        const [before, after] = this.recipeLines.weight.replace(/[g\s]+/g, '').split(/>/)
         return { before, after }
       } else return null
     },
