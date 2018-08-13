@@ -12,7 +12,8 @@ export default new Router({
       path: '/',
       component: DefaultLayout,
       children: [
-        { path: '', component: () => import('@/pages/Home') }
+        { path: '', component: () => import('@/pages/Home') },
+        { path: 'editNote/:number', component: () => import('@/pages/EditNote'), props: true, name: 'editNote' }
       ]
     },
     { // Always leave this as last one

@@ -6,7 +6,7 @@
         {{ title }}
         <span slot="subtitle">{{ type }}</span>
         <div slot="right"> <!-- class="column" -->
-          <q-btn round flat icon="edit"></q-btn>
+          <q-btn round flat icon="edit" @click="clickEdit"></q-btn>
           <q-btn round flat icon="delete"></q-btn>
         </div>
       </q-card-title>
@@ -17,9 +17,9 @@
           </div>
           <div class="col-5">
             <q-carousel arrows quick-nav height="120px" color="secondary">
-              <q-carousel-slide img-src="coffee.jpg" />
-              <q-carousel-slide img-src="coffee.jpg" />
-              <q-carousel-slide img-src="coffee.jpg" />
+              <q-carousel-slide img-src="/coffee.jpg" />
+              <q-carousel-slide img-src="/coffee.jpg" />
+              <q-carousel-slide img-src="/coffee.jpg" />
             </q-carousel>
           </div>
         </div>
@@ -51,6 +51,12 @@ export default {
   },
   components: {
     'note-recipe': NoteRecipe
+  },
+  methods: {
+    clickEdit () {
+      console.log(this.number)
+      this.$router.push({name: 'editNote', params: { number: this.number }})
+    }
   }
 }
 </script>
