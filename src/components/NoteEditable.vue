@@ -5,21 +5,21 @@
         <div class="row">
           <div class="col-2 q-pt-sm">
             <span class="bg-primary shadow-1 text-white round-borders q-pa-xs">#{{ numberStr }}</span>
-          </div>  
+          </div>
           <div class="col-10">
-            <q-input v-model="title" placeholder="Mogiana Region, Brazil" />
+            <q-input v-model="note.title" placeholder="Mogiana Region, Brazil" />
           </div>
         </div>
         <span slot="subtitle">
-          <q-input v-model="type" placeholder="Medium Roast" />
+          <q-input v-model="note.type" placeholder="Medium Roast" />
         </span>
       </q-card-title>
       <q-card-main>
         <div class="row">
           <div class="col-7">
-            <q-input v-model="recipe" float-label="Recipe" placeholder="7L.5 > 2H.9..." />
-            <q-input v-model="weight" float-label="Weight" placeholder="100g > 80g" />
-            <q-input v-model="crack" float-label="Crack Time" placeholder="1.0" />
+            <q-input v-model="note.recipe" float-label="Recipe" placeholder="7L.5 > 2H.9..." />
+            <q-input v-model="note.weight" float-label="Weight" placeholder="100g > 80g" />
+            <q-input v-model="note.crack" float-label="Crack Time" placeholder="1.0" />
           </div>
           <div class="col-5">
             <q-carousel arrows quick-nav height="180px" color="secondary" class="q-ml-sm">
@@ -38,9 +38,9 @@
           <q-btn round flat icon="camera_alt" title="Cancel"></q-btn>
         </div>
         <div class="col-5">
-          <q-datetime v-model="date" 
-            type="date" 
-            :before="[{icon: 'date_range'}]" 
+          <q-datetime v-model="note.date"
+            type="date"
+            :before="[{icon: 'date_range'}]"
             format="DD/MM/YYYY" />
         </div>
       </q-card-actions>
@@ -54,13 +54,16 @@ export default {
   name: 'Note',
   data () {
     return {
-      type: '',
-      title: '',
-      recipe: '',
-      weight: '',
-      crack: '',
-      dateStr: '',
-      date: null
+      note: {
+        number: '',
+        type: '',
+        title: '',
+        recipe: '',
+        weight: '',
+        crack: '',
+        date: null
+      },
+      dateStr: ''
     }
   },
   props: ['number'],
@@ -68,6 +71,9 @@ export default {
     numberStr () {
       return (`000${this.number}`).substr(-3, 3) // add leading zeros
     }
+  },
+  created () {
+    this.note = this.$store.getters.getNoteByNumber(this.number)
   },
   methods: {}
 }

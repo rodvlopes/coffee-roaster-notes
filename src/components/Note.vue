@@ -54,6 +54,7 @@ export default {
   },
   methods: {
     clickEdit () {
+      console.log('store', this.$store)
       console.log(this.number)
       this.$router.push({name: 'editNote', params: { number: this.number }})
     }
