@@ -9,3 +9,32 @@ Vue.use(Quasar, {
   directives: All,
   plugins: All
 })
+
+
+/***
+How to import some components rather them All
+
+import Quasar, {
+  QLayout,
+  QChip,
+  QCarousel,
+  QCarouselSlide,
+  Notify,
+  Ripple,
+} from 'quasar'
+
+Vue.use(Quasar, {
+  components: {
+    QLayout,
+    QChip,
+    QCarousel,
+    QCarouselSlide,
+  },
+  directives: {
+    Ripple
+  },
+  plugins: {
+    Notify
+  }
+})
+***/
