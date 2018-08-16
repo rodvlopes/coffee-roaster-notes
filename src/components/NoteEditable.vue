@@ -17,9 +17,9 @@
       <q-card-main>
         <div class="row">
           <div class="col-7">
-            <q-input v-model="recipeStr" float-label="Recipe" placeholder="7L.5 > 2H.9..." />
-            <q-input v-model="weightStr" float-label="Weight" placeholder="100g > 80g" />
-            <q-input v-model="note.crack" float-label="Crack Time" placeholder="1.0" />
+            <q-input class="q-mb-sm" v-model="recipeStr" float-label="Recipe" placeholder="7L.5 > 2H.9..." />
+            <q-input class="q-mb-sm" v-model="weightStr" float-label="Weight" placeholder="100g > 80g" />
+            <q-input class="q-mb-sm" v-model="note.crack" float-label="Crack Time" placeholder="1.0" />
           </div>
           <div class="col-5">
             <q-carousel arrows quick-nav height="180px" color="secondary" class="q-ml-sm">
@@ -72,15 +72,16 @@ export default {
       return (`000${this.number}`).substr(-3, 3) // add leading zeros
     },
     recipeStr: {
-      get() { return this.note.recipe.join(' > ') },
-      set(newValue) { 
-        this.note.recipe = this.recipeLines.steps.split(/\s*>\s*/)
+      get () { return this.note.recipe.join(' > ') },
+      set (newValue) {
+        this.note.recipe = newValue.split(/\s*>\s*/)
       }
     },
     weightStr: {
-      get() { return `${this.note.weight.before} > ${this.note.weight.after}` },
-      set(newValue) { 
-        this.note.recipe = this.recipeLines.steps.split(/\s*>\s*/)
+      get () { return `${this.note.weight.before} > ${this.note.weight.after}` },
+      set (newValue) {
+        let [before, after] = newValue.split(/\s*>\s*/)
+        this.note.weight = {before, after}
       }
     }
   },
@@ -88,8 +89,12 @@ export default {
     this.note = this.$store.getters.getNoteByNumber(this.number)
   },
   methods: {
-    save() {
-      
+    save () {
+      this.$store.dispatch('saveNote', this.note)
+      this.$router.push('/')
+    },
+    cancel () {
+      console.log('console...')
     }
   }
 }

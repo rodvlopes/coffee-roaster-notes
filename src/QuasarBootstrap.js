@@ -10,7 +10,6 @@ Vue.use(Quasar, {
   plugins: All
 })
 
-
 /***
 How to import some components rather them All
 

@@ -1,5 +1,5 @@
 const state = {
-  numberSeq : 8,
+  numberSeq: 8,
   notes: [
     {
       number: 4,
@@ -33,7 +33,7 @@ const state = {
       title: 'Uma Receita Longa',
       type: 'Torra Escura',
       date: new Date(),
-      recipe: ['11.0M1', '9.0C0.7', '8.0L0.7> 4.0L0.2> 1.0C0.7'],
+      recipe: ['11.0M1', '9.0C0.7', '8.0L0.7', '4.0L0.2', '1.0C0.7'],
       weight: {before: '100g', after: '85g'},
       crack: '4.0'
     }
@@ -45,28 +45,27 @@ const getters = {
     return state.notes
   },
   getNoteByNumber (state) {
-    return (number) => state.notes.filter(note => note.number == number)[0]
+    return (number) => state.notes.filter(note => note.number === parseInt(number))[0]
   }
 }
 
 const mutations = {
-  updateNote (state, noteRef, noteUpdated) {
-
+  UPDATE_NOTE (state, {noteRef, noteData}) {
+    Object.assign(noteRef, noteData)
   },
-  addNote (state, note) {
-
-  },
+  ADD_NOTE (state, noteData) {
+    noteData.number = state.numberSeq++
+    state.notes.push(noteData)
+  }
 }
 
 const actions = {
-  saveNote ({commit, getters}, note) {
-    let noteState = getters.getNoteByNumber(note.number)
-    if (noteState) {
-      
-    }
-    else {
-      note.number = state.numberSeq++
-      state.notes.push(note)
+  saveNote ({commit, getters}, noteData) {
+    let noteRef = getters.getNoteByNumber(noteData.number)
+    if (noteRef) {
+      commit('UPDATE_NOTE', {noteRef, noteData})
+    } else {
+      commit('ADD_NOTE', noteData)
     }
   }
 }
