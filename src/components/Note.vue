@@ -13,7 +13,7 @@
       <q-card-main>
         <div class="row">
           <div class="col-7">
-            <note-recipe :recipe="recipe" />
+            <note-recipe :recipe="recipe" :weight="weight" :crack="crack" />
           </div>
           <div class="col-5">
             <q-carousel arrows quick-nav height="120px" color="secondary">
@@ -40,7 +40,7 @@ export default {
   data () {
     return {}
   },
-  props: ['number', 'title', 'type', 'date', 'recipe'],
+  props: ['number', 'title', 'type', 'date', 'recipe', 'weight', 'crack'],
   computed: {
     dateStr () {
       return this.date.toLocaleDateString()

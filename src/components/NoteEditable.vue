@@ -17,8 +17,8 @@
       <q-card-main>
         <div class="row">
           <div class="col-7">
-            <q-input v-model="note.recipe" float-label="Recipe" placeholder="7L.5 > 2H.9..." />
-            <q-input v-model="note.weight" float-label="Weight" placeholder="100g > 80g" />
+            <q-input v-model="recipeStr" float-label="Recipe" placeholder="7L.5 > 2H.9..." />
+            <q-input v-model="weightStr" float-label="Weight" placeholder="100g > 80g" />
             <q-input v-model="note.crack" float-label="Crack Time" placeholder="1.0" />
           </div>
           <div class="col-5">
@@ -33,9 +33,9 @@
       <q-card-separator />
       <q-card-actions class="justify-between">
         <div class="col-4">
-          <q-btn round flat icon="save" title="Save"></q-btn>
-          <q-btn round flat icon="cancel" title="Cancel"></q-btn>
-          <q-btn round flat icon="camera_alt" title="Cancel"></q-btn>
+          <q-btn round flat icon="save" title="Save" @click="save"></q-btn>
+          <q-btn round flat icon="cancel" title="Cancel" @click="cancel"></q-btn>
+          <q-btn round flat icon="camera_alt" title="Upload Picture"></q-btn>
         </div>
         <div class="col-5">
           <q-datetime v-model="note.date"
@@ -58,8 +58,8 @@ export default {
         number: '',
         type: '',
         title: '',
-        recipe: '',
-        weight: '',
+        recipe: [],
+        weight: null,
         crack: '',
         date: null
       },
@@ -70,12 +70,28 @@ export default {
   computed: {
     numberStr () {
       return (`000${this.number}`).substr(-3, 3) // add leading zeros
+    },
+    recipeStr: {
+      get() { return this.note.recipe.join(' > ') },
+      set(newValue) { 
+        this.note.recipe = this.recipeLines.steps.split(/\s*>\s*/)
+      }
+    },
+    weightStr: {
+      get() { return `${this.note.weight.before} > ${this.note.weight.after}` },
+      set(newValue) { 
+        this.note.recipe = this.recipeLines.steps.split(/\s*>\s*/)
+      }
     }
   },
   created () {
     this.note = this.$store.getters.getNoteByNumber(this.number)
   },
-  methods: {}
+  methods: {
+    save() {
+      
+    }
+  }
 }
 </script>
 <style>

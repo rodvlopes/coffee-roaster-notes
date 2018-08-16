@@ -1,23 +1,23 @@
 <template>
   <span class="note-recipe">
-    <div v-if="recipeSteps" class="row step">
-      <span v-for="(step, index) in recipeSteps" :key="index">
+    <div v-if="recipe" class="row step">
+      <span v-for="(step, index) in recipe" :key="index">
         {{ step }}
-        <q-icon name="keyboard_arrow_right" v-if="recipeSteps.length-1 != index" size="2em" />
+        <q-icon name="keyboard_arrow_right" v-if="recipe.length-1 != index" size="2em" />
       </span>
     </div>
-    <div v-if="recipeCrackTime" class="row q-mb-sm">
+    <div v-if="crack" class="row q-mb-sm">
       <q-chip icon="flash_on" icon-right="alarm" small color="primary">
-        @ {{ recipeCrackTime }}
+        @ {{ crack }}
       </q-chip>
     </div>
-    <div v-if="recipeWeight" class="row">
+    <div v-if="weight" class="row">
       <q-chip icon="shopping_basket" small  color="primary" class="weight">
-        {{ recipeWeight.before }}
+        {{ weight.before }}
       </q-chip>
       <q-icon name="keyboard_arrow_right" size="2em" />
       <q-chip icon="shopping_basket" small color="primary" class="weight">
-        {{ recipeWeight.after }}
+        {{ weight.after }}
       </q-chip>
     </div>
   </span>
@@ -29,34 +29,8 @@ export default {
   data () {
     return {}
   },
-  props: [
-    'recipe'
-  ],
-  computed: {
-    recipeLines () {
-      let [steps, weight, crack] = [null, null, null]
-      if (this.recipe) {
-        [steps, weight, crack] = this.recipe.split('\n')
-      }
-      return {steps, weight, crack}
-    },
-    recipeSteps () {
-      if (this.recipeLines.steps) {
-        return this.recipeLines.steps.split(/\s*>\s*/)
-      } else return null
-    },
-    recipeWeight () {
-      if (this.recipeLines.weight) {
-        const [before, after] = this.recipeLines.weight.replace(/[g\s]+/g, '').split(/>/)
-        return { before, after }
-      } else return null
-    },
-    recipeCrackTime () {
-      if (this.recipeLines.crack) {
-        return this.recipeLines.crack.split(/@\s*/)[1]
-      } else return null
-    }
-  }
+  props: ['recipe', 'weight', 'crack'],
+  computed: {}
 }
 </script>
 
