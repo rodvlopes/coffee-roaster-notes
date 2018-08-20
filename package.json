@@ -10,27 +10,30 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
-    "test:unit:watch": "vue-cli-service test:unit --watch"
+    "test:unit:debug": "vue-cli-service test:unit --inspect-brk",
+    "test:unit:watch": "vue-cli-service test:unit --watch",
+    "test:unit:watch:debug": "vue-cli-service test:unit --watch --inspect-brk"
   },
   "dependencies": {
-    "quasar-extras": "^2.0.4",
-    "quasar-framework": "^0.17.0",
+    "quasar-extras": "^2.0.5",
+    "quasar-framework": "^0.17.8",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
+    "vuelidate": "^0.7.4",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-rc.10",
-    "@vue/cli-plugin-eslint": "^3.0.0-rc.10",
-    "@vue/cli-plugin-unit-mocha": "^3.0.0-rc.10",
-    "@vue/cli-service": "^3.0.0-rc.10",
-    "@vue/eslint-config-airbnb": "^3.0.0-rc.10",
-    "@vue/test-utils": "^1.0.0-beta.20",
+    "@vue/cli-plugin-babel": "^3.0.1",
+    "@vue/cli-plugin-eslint": "^3.0.1",
+    "@vue/cli-plugin-unit-mocha": "^3.0.1",
+    "@vue/cli-service": "^3.0.1",
+    "@vue/test-utils": "^1.0.0-beta.24",
     "chai": "^4.1.2",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
+    "eslint-plugin-import": "^2.14.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "vue-cli-plugin-quasar": "^0.2.1",
@@ -50,7 +53,11 @@
       "parser": "babel-eslint"
     },
     "rules": {
-        "no-console": "off"
+      "no-console": "off",
+      "comma-dangle": [
+        2,
+        "only-multiline"
+      ]
     }
   },
   "browserslist": [

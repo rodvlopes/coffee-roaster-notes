@@ -56,6 +56,9 @@ const mutations = {
   ADD_NOTE (state, noteData) {
     noteData.number = state.numberSeq++
     state.notes.push(noteData)
+  },
+  SET_NOTES (state, {notes}) {
+    state.notes = notes
   }
 }
 

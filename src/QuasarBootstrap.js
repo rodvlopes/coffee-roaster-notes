@@ -3,6 +3,9 @@ import './styles/quasar.styl'
 import 'quasar-extras/roboto-font'
 import 'quasar-extras/material-icons'
 import Quasar, * as All from 'quasar'
+import Vuelidate from 'vuelidate'
+
+Vue.use(Vuelidate)
 
 Vue.use(Quasar, {
   components: All,

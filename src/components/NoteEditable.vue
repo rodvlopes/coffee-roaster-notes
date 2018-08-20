@@ -17,8 +17,11 @@
       <q-card-main>
         <div class="row">
           <div class="col-7">
-            <q-input class="q-mb-sm" v-model="recipeStr" float-label="Recipe" placeholder="7L.5 > 2H.9..." />
-            <q-input class="q-mb-sm" v-model="weightStr" float-label="Weight" placeholder="100g > 80g" />
+            <!-- waiting for the new vue model.lazy modificator -->
+            <q-input class="q-mb-sm" :error="$v.recipeStr.$error"
+             :value="recipeStr" @change="v => { $v.recipeStr.$touch(); recipeStr = v }" float-label="Recipe" placeholder="7L.5 > 2H.9..." />
+            <q-input class="q-mb-sm" :error="$v.weightStr.$error" @blur="$v.weightStr.$touch"
+             :value="weightStr" @change="v => { weightStr = v }"  float-label="Weight (in grams)" placeholder="100 > 80" />
             <q-input class="q-mb-sm" v-model="note.crack" float-label="Crack Time" placeholder="1.0" />
           </div>
           <div class="col-5">
@@ -49,6 +52,7 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   name: 'Note',
@@ -72,16 +76,23 @@ export default {
       return (`000${this.number}`).substr(-3, 3) // add leading zeros
     },
     recipeStr: {
-      get () { return this.note.recipe.join(' > ') },
+      get () {
+        return this.note.recipe ? this.note.recipe.join(' > ') : ''
+      },
       set (newValue) {
-        this.note.recipe = newValue.split(/\s*>\s*/)
+        if (this.$v.recipeStr.$error) return
+        this.note.recipe = newValue ? newValue.toUpperCase().split(/\s*>\s*/).filter(v => !!v) : []
       }
     },
     weightStr: {
-      get () { return `${this.note.weight.before} > ${this.note.weight.after}` },
+      get () {
+        return this.note.weight ? `${this.note.weight.before} > ${this.note.weight.after}` : ''
+      },
       set (newValue) {
+        console.log(this.$v.weightStr.$error)
+        if (this.$v.weightStr.$error) return
         let [before, after] = newValue.split(/\s*>\s*/)
-        this.note.weight = {before, after}
+        this.note.weight = newValue ? {before, after} : null
       }
     }
   },
@@ -95,6 +106,21 @@ export default {
     },
     cancel () {
       console.log('console...')
+    }
+  },
+  validations: {
+    recipeStr: {
+      required,
+      formated () {
+        return this.note.recipe.every(v => /^\d+(\.\d+)?[MLHC]{1}[\d.](\.?\d+)?$/.test(v))
+      }
+    },
+    weightStr: {
+      formated (newValue) {
+        console.log(newValue)
+        let [before, after] = newValue.split(/\s*>\s*/)
+        return newValue ? !isNaN(before) && !isNaN(after) : true
+      }
     }
   }
 }
