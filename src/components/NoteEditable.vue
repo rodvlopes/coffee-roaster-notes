@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <form @submit="save">
     <q-card class="q-ma-sm">
       <q-card-title>
         <div class="row">
@@ -7,7 +7,8 @@
             <span class="bg-primary shadow-1 text-white round-borders q-pa-xs">#{{ numberStr }}</span>
           </div>
           <div class="col-10">
-            <q-input v-model="note.title" placeholder="Mogiana Region, Brazil" />
+            <q-input v-model="note.title" :error="$v.note.title.$error" @blur="$v.note.title.$touch"
+             placeholder="Mogiana Region, Brazil" />
           </div>
         </div>
         <span slot="subtitle">
@@ -18,8 +19,8 @@
         <div class="row">
           <div class="col-7">
             <!-- waiting for the new vue model.lazy modificator -->
-            <q-input class="q-mb-sm" :error="$v.recipeStr.$error"
-             :value="recipeStr" @change="v => { $v.recipeStr.$touch(); recipeStr = v }" float-label="Recipe" placeholder="7L.5 > 2H.9..." />
+            <q-input class="q-mb-sm" :error="$v.recipeStr.$error" @blur="$v.recipeStr.$touch"
+             :value="recipeStr" @change="v => { recipeStr = v }" float-label="Recipe" placeholder="7L.5 > 2H.9..." />
             <q-input class="q-mb-sm" :error="$v.weightStr.$error" @blur="$v.weightStr.$touch"
              :value="weightStr" @change="v => { weightStr = v }"  float-label="Weight (in grams)" placeholder="100 > 80" />
             <q-input class="q-mb-sm" v-model="note.crack" float-label="Crack Time" placeholder="1.0" />
@@ -36,7 +37,7 @@
       <q-card-separator />
       <q-card-actions class="justify-between">
         <div class="col-4">
-          <q-btn round flat icon="save" title="Save" @click="save"></q-btn>
+          <q-btn round flat icon="save" title="Save" @click="save" :disabled="$v.$anyError"></q-btn>
           <q-btn round flat icon="cancel" title="Cancel" @click="cancel"></q-btn>
           <q-btn round flat icon="camera_alt" title="Upload Picture"></q-btn>
         </div>
@@ -48,7 +49,7 @@
         </div>
       </q-card-actions>
     </q-card>
-  </div>
+  </form>
 </template>
 
 <script>
@@ -80,7 +81,6 @@ export default {
         return this.note.recipe ? this.note.recipe.join(' > ') : ''
       },
       set (newValue) {
-        if (this.$v.recipeStr.$error) return
         this.note.recipe = newValue ? newValue.toUpperCase().split(/\s*>\s*/).filter(v => !!v) : []
       }
     },
@@ -89,8 +89,6 @@ export default {
         return this.note.weight ? `${this.note.weight.before} > ${this.note.weight.after}` : ''
       },
       set (newValue) {
-        console.log(this.$v.weightStr.$error)
-        if (this.$v.weightStr.$error) return
         let [before, after] = newValue.split(/\s*>\s*/)
         this.note.weight = newValue ? {before, after} : null
       }
@@ -101,11 +99,13 @@ export default {
   },
   methods: {
     save () {
-      this.$store.dispatch('saveNote', this.note)
-      this.$router.push('/')
+      if (!this.$v.$anyError) {
+        this.$store.dispatch('saveNote', this.note)
+        this.$router.push('/')
+      }
     },
     cancel () {
-      console.log('console...')
+      this.$router.push('/')
     }
   },
   validations: {
@@ -116,10 +116,13 @@ export default {
       }
     },
     weightStr: {
-      formated (newValue) {
-        console.log(newValue)
-        let [before, after] = newValue.split(/\s*>\s*/)
-        return newValue ? !isNaN(before) && !isNaN(after) : true
+      formated () {
+        return this.note.weight ? !isNaN(this.note.weight.before) && !isNaN(this.note.weight.after) : true
+      }
+    },
+    note: {
+      title: {
+        required
       }
     }
   }
