@@ -118,7 +118,7 @@ describe('NoteEditable.vue', () => {
     expect(vm.$v.recipeStr.$error).to.be.false
   })
 
-  it.only('weight validator', () => {
+  it('weight validator', () => {
     let vm = buildNoteEditable(6).vm
 
     /* not required */
@@ -135,5 +135,8 @@ describe('NoteEditable.vue', () => {
     vm.weightStr = '4 > a'
     vm.$v.weightStr.$touch()
     expect(vm.$v.weightStr.$error).to.be.true
+
+    /* this test is logging a expceptino in vuelidate, but it seems to be a
+       be in this plugin. It's not impacting the funcionality. */
   })
 })

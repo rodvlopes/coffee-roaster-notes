@@ -7,7 +7,7 @@ const state = {
       type: 'Torra Média',
       date: new Date(),
       recipe: ['6.5L.75', '4.0L0.9', '1.0M1'],
-      weight: {before: '85g', after: '75g'},
+      weight: {before: '85', after: '75'},
       crack: '0.8'
     },
     {
@@ -16,7 +16,7 @@ const state = {
       type: 'Torra Clara',
       date: new Date(),
       recipe: ['6.0M.75', '4.0L0.9'],
-      weight: {before: '85g', after: '75g'},
+      weight: {before: '85', after: '75'},
       crack: '0.8'
     },
     {
@@ -25,7 +25,7 @@ const state = {
       type: 'Torra Média',
       date: new Date(),
       recipe: ['7.0M1', '4.0L0.7'],
-      weight: {before: '100g', after: '85g'},
+      weight: {before: '100', after: '85'},
       crack: '2.1'
     },
     {
@@ -34,7 +34,7 @@ const state = {
       type: 'Torra Escura',
       date: new Date(),
       recipe: ['11.0M1', '9.0C0.7', '8.0L0.7', '4.0L0.2', '1.0C0.7'],
-      weight: {before: '100g', after: '85g'},
+      weight: {before: '100', after: '85'},
       crack: '4.0'
     }
   ]

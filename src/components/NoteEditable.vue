@@ -26,7 +26,8 @@
             <q-input class="q-mb-sm" v-model="note.crack" float-label="Crack Time" placeholder="1.0" />
           </div>
           <div class="col-5">
-            <q-carousel arrows quick-nav height="180px" color="secondary" class="q-ml-sm">
+            <q-uploader v-if="picUploadMode" multiple :url="picUploadUrl" />
+            <q-carousel v-if="!picUploadMode" arrows quick-nav height="180px" color="secondary" class="q-ml-sm">
               <q-carousel-slide img-src="/coffee.jpg" />
               <q-carousel-slide img-src="/coffee.jpg" />
               <q-carousel-slide img-src="/coffee.jpg" />
@@ -39,7 +40,7 @@
         <div class="col-4">
           <q-btn round flat icon="save" title="Save" @click="save" :disabled="$v.$anyError"></q-btn>
           <q-btn round flat icon="cancel" title="Cancel" @click="cancel"></q-btn>
-          <q-btn round flat icon="camera_alt" title="Upload Picture"></q-btn>
+          <q-btn round flat icon="camera_alt" title="Upload Picture" @click="picUpload"></q-btn>
         </div>
         <div class="col-5">
           <q-datetime v-model="note.date"
@@ -68,7 +69,9 @@ export default {
         crack: '',
         date: null
       },
-      dateStr: ''
+      dateStr: '',
+      picUploadMode: false,
+      picUploadUrl: 'localhost'
     }
   },
   props: ['number'],
@@ -86,6 +89,7 @@ export default {
     },
     weightStr: {
       get () {
+        // console.log('>>>>>>>>>', this.note.weight && this.note.weight.before, this.note.weight && this.note.weight.after)
         return this.note.weight ? `${this.note.weight.before} > ${this.note.weight.after}` : ''
       },
       set (newValue) {
@@ -95,7 +99,7 @@ export default {
     }
   },
   created () {
-    this.note = this.$store.getters.getNoteByNumber(this.number)
+    this.note = { ...this.$store.getters.getNoteByNumber(this.number) }
   },
   methods: {
     save () {
@@ -106,13 +110,16 @@ export default {
     },
     cancel () {
       this.$router.push('/')
+    },
+    picUpload () {
+      this.picUploadMode = !this.picUploadMode
     }
   },
   validations: {
     recipeStr: {
       required,
       formated () {
-        return this.note.recipe.every(v => /^\d+(\.\d+)?[MLHC]{1}[\d.](\.?\d+)?$/.test(v))
+        return this.note.recipe && this.note.recipe.every(v => /^\d+(\.\d+)?[MLHC]{1}[\d.](\.?\d+)?$/.test(v))
       }
     },
     weightStr: {
