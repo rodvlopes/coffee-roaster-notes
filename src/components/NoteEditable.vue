@@ -71,7 +71,7 @@ export default {
       },
       dateStr: '',
       picUploadMode: false,
-      picUploadUrl: 'localhost'
+      picUploadUrl: '/upload'
     }
   },
   props: ['number'],

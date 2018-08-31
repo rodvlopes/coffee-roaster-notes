@@ -1,0 +1,16 @@
+{
+  "name": "coffee-roaster-notes-server",
+  "version": "1.0.0",
+  "description": "the api server for the coffee roaster frontend ",
+  "main": "app.js",
+  "scripts": {
+    "serve": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rodrigo Lopes",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "express-fileupload": "^0.4.0"
+  }
+}
