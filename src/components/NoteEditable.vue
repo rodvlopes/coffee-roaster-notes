@@ -26,11 +26,12 @@
             <q-input class="q-mb-sm" v-model="note.crack" float-label="Crack Time" placeholder="1.0" />
           </div>
           <div class="col-5">
-            <q-uploader v-if="picUploadMode" multiple :url="picUploadUrl" />
+            <q-uploader v-if="picUploadMode"
+              multiple auto-expand
+              :url="picUploadUrl"
+              @finish="finishUpload()" />
             <q-carousel v-if="!picUploadMode" arrows quick-nav height="180px" color="secondary" class="q-ml-sm">
-              <q-carousel-slide img-src="/coffee.jpg" />
-              <q-carousel-slide img-src="/coffee.jpg" />
-              <q-carousel-slide img-src="/coffee.jpg" />
+              <q-carousel-slide v-for="(pic, index) in pics" :img-src="pic" :key="index" />
             </q-carousel>
           </div>
         </div>
@@ -40,7 +41,7 @@
         <div class="col-4">
           <q-btn round flat icon="save" title="Save" @click="save" :disabled="$v.$anyError"></q-btn>
           <q-btn round flat icon="cancel" title="Cancel" @click="cancel"></q-btn>
-          <q-btn round flat icon="camera_alt" title="Upload Picture" @click="picUpload"></q-btn>
+          <q-btn round flat icon="camera_alt" title="Upload Picture" @click="picUploadMode = !picUploadMode"></q-btn>
         </div>
         <div class="col-5">
           <q-datetime v-model="note.date"
@@ -69,13 +70,16 @@ export default {
         crack: '',
         date: null
       },
+      pics: ['/coffee.jpg', '/coffee.jpg', '/coffee.jpg'],
       dateStr: '',
-      picUploadMode: false,
-      picUploadUrl: '/upload'
+      picUploadMode: false
     }
   },
   props: ['number'],
   computed: {
+    picUploadUrl () {
+      return `/api/upload/${this.number}`
+    },
     numberStr () {
       return (`000${this.number}`).substr(-3, 3) // add leading zeros
     },
@@ -89,7 +93,6 @@ export default {
     },
     weightStr: {
       get () {
-        // console.log('>>>>>>>>>', this.note.weight && this.note.weight.before, this.note.weight && this.note.weight.after)
         return this.note.weight ? `${this.note.weight.before} > ${this.note.weight.after}` : ''
       },
       set (newValue) {
@@ -99,6 +102,7 @@ export default {
     }
   },
   created () {
+    this.loadUserPics()
     this.note = { ...this.$store.getters.getNoteByNumber(this.number) }
   },
   methods: {
@@ -111,8 +115,24 @@ export default {
     cancel () {
       this.$router.push('/')
     },
-    picUpload () {
-      this.picUploadMode = !this.picUploadMode
+    loadUserPics () {
+      this.$axios.get(`/api/userpics/${this.number}`)
+        .then((response) => {
+          if (!response.data.length) return
+          this.pics = response.data.map(it => `/userpics/${it}`)
+        })
+        .catch(() => {
+          this.$q.notify({
+            color: 'negative',
+            position: 'top',
+            message: 'Loading failed',
+            icon: 'report_problem'
+          })
+        })
+    },
+    finishUpload () {
+      this.loadUserPics()
+      this.picUploadMode = false
     }
   },
   validations: {

@@ -15,6 +15,7 @@
     "test:unit:watch:debug": "vue-cli-service test:unit --watch --inspect-brk"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "quasar-extras": "^2.0.5",
     "quasar-framework": "^0.17.8",
     "vue": "^2.5.16",

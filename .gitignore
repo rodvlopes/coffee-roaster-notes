@@ -1,8 +1,8 @@
 .DS_Store
-server/uploaded_files/
 node_modules
 /dist
 .quasar
+public/userpics/
 
 # local env files
 .env.local
