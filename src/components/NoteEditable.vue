@@ -71,7 +71,6 @@ export default {
         date: null
       },
       pics: ['/coffee.jpg', '/coffee.jpg', '/coffee.jpg'],
-      dateStr: '',
       picUploadMode: false
     }
   },
@@ -125,7 +124,7 @@ export default {
           this.$q.notify({
             color: 'negative',
             position: 'top',
-            message: 'Loading failed',
+            message: 'User pictures loading failed',
             icon: 'report_problem'
           })
         })

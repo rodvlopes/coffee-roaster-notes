@@ -5,7 +5,7 @@ const state = {
       number: 4,
       title: 'Grão Etiópia',
       type: 'Torra Média',
-      date: new Date(),
+      date: new Date('2018-01-02 00:00:00').getTime(),
       recipe: ['6.5L.75', '4.0L0.9', '1.0M1'],
       weight: {before: '85', after: '75'},
       crack: '0.8'
