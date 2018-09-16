@@ -2,19 +2,22 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const path = require('path')
 const fs = require('fs');
+const {Note} = require('./models')
 
 const app = express();
-const USER_PICS_DIR = '../public/userpics'
+app.use(fileUpload());
 
+const USER_PICS_DIR = '../public/userpics'
 const acceptedPicsExtension = (fname) => /jpg|png|gif$/i.test(fname)
 
-app.use(fileUpload());
+Note.list().then(console.log)
 
 app.get('/', function (req, res) {
   res.send('Hello World!');
 });
 
 // rid: recipe id
+// TODO> rename action to userpics
 app.post('/api/upload/:rid', function(req, res) {
   // console.log(req.files.file); // the uploaded file object
   console.log(req.params.rid);

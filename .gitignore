@@ -3,6 +3,7 @@ node_modules
 /dist
 .quasar
 public/userpics/
+server/dev.sqlite3
 
 # local env files
 .env.local
